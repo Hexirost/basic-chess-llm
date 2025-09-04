@@ -1,6 +1,5 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
-from ChessTokenizer import ChessTokenizer
 
 class GPTDataset(Dataset):
     def __init__(self, moves, tokenizer, chunk_size, stride):
@@ -23,12 +22,12 @@ class GPTDataset(Dataset):
     def __getitem__(self, idx):
         return self.input_ids[idx], self.target_ids[idx]
     
-def create_dataloader(txt, tokenizer, batch_size=4, chunk_size=256, 
+def create_dataloader(txt, tokenizer, batch_size=4, max_length=256, 
                          stride=4, shuffle=False, drop_last=True,
                          num_workers=0):
 
     # Create dataset
-    dataset = GPTDataset(txt, tokenizer, chunk_size, stride)
+    dataset = GPTDataset(txt, tokenizer, max_length, stride)
 
     # Create dataloader
     dataloader = DataLoader(
